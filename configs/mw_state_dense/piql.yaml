@@ -1,0 +1,66 @@
+
+alg: PIQL
+alg_kwargs:
+  beta: 0.3333
+  expectile: 0.7
+  reward_steps: 50000
+
+optim: Adam
+optim_kwargs:
+  lr: 0.0003
+
+network: ActorCriticValueRewardPolicy
+network_kwargs:
+  actor_class: ContinuousMLPActor
+  actor_kwargs:
+    dropout: 0.25 # only actor gets dropout sometimes.
+    output_act: ["import", "torch.nn", "Tanh"]
+  critic_class: ContinuousMLPCritic
+  critic_kwargs:
+    ensemble_size: 2
+  value_class: MLPValue
+  value_kwargs:
+    ensemble_size: 1
+  reward_class: ContinuousMLPCritic
+  reward_kwargs:
+    ensemble_size: 1
+  act: ["import", "torch.nn", "ReLU"]
+  hidden_layers: [512, 512]
+  ortho_init: True
+
+checkpoint: null
+
+eval_env: mw_drawer-open-v2
+
+dataset: FeedbackBuffer
+dataset_kwargs:
+  path: datasets/mw/pref/mw_drawer-open-v2_ep2500_n0.3.npz
+  batch_size: 96
+  segment_length: null # default to 64
+  capacity: 2500 # How many segments in the dataset
+  label_key: rl_sum
+  mode: rank
+  discount: 0.99
+
+schedule:
+  actor: ["import", "torch.optim.lr_scheduler", "CosineAnnealingLR"]
+schedule_kwargs:
+  actor:
+    T_max: 500000
+
+processor: null
+
+trainer_kwargs: # Arguments given to Algorithm.train
+  total_steps: 500000 # The total number of steps to train
+  log_freq: 500 # How often to log values
+  profile_freq: 500
+  eval_freq: 5000 # How often to run evals
+  eval_fn: eval_policy
+  eval_kwargs:
+    num_ep: 25 # Number of enviornment episodes to run for evaluation, or -1 if none should be run.
+  loss_metric: reward # The validation metric that determines when to save the "best_checkpoint"
+  train_dataloader_kwargs:
+    num_workers: 0 # Number of dataloader workers.
+    batch_size: null
+
+seed: null

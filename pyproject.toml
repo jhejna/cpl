@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "research"
+version = "0.0.1"
+description = "Research experimentation package."
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+    { name = "Joey Hejna", email = "jhejna@cs.stanford.edu" },
+]
+license = { file = "LICENSE" }
+
+classifiers = [
+    "Topic :: Research",
+    "Private :: Do Not Upload"
+]
+
+[dependencies]
+
+[project.urls]
+homepage = "https://github.com/jhejna/research-lightning"
+repository = "https://github.com/jhejna/research-lightning"
+documentation = "https://github.com/jhejna/research-lightning"
+
+[tool.black]
+line-length = 120
+target-version = ["py39", "py310", "py311"]
+preview = true
+
+[tool.ruff]
+line-length = 120
+target-version = "py39"
+select = ["A", "B", "C90", "E", "F", "I", "RUF", "W"]
+ignore = ["A002", "A003", "B027", "C901", "RUF012"]
+
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["E402", "F401"]
+
+[tool.isort]
+profile = "black"
+line_length = 120
+skip = ["__init__.py"]
+filter_files = true
+py_version = "all"
+
+
+[tool.setuptools.packages.find]
+where = ["."]
+exclude = ["cache"]

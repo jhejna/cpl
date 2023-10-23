@@ -1,0 +1,48 @@
+name: cpl
+channels:
+  - pytorch
+  - defaults
+dependencies:
+  - python
+
+  # Development
+  - conda-forge::pre-commit
+
+  # pytorch
+  - pytorch
+  - cpuonly
+  - torchvision
+  - torchtext
+  - torchaudio
+
+  # NP Family
+  - numpy
+  - scipy
+  - scikit-image
+
+  # IO
+  - imageio
+  - pillow
+  - pyyaml
+  - cloudpickle
+  - h5py
+  - absl-py
+  - pyparsing
+
+  # Plotting
+  - tensorboard
+  - pandas
+  - matplotlib
+  - seaborn
+
+  # Other
+  - pytest
+  - tqdm
+  - future
+
+  - pip
+  - pip:
+      - gym==0.23.1
+      - Cython==0.29.36 # For mujoco_py - newer verison of Cython breaks.
+      - mujoco-py<2.2,>=2.0
+      - git+https://github.com/Farama-Foundation/Metaworld.git@04be337a12305e393c0caf0cbf5ec7755c7c8feb

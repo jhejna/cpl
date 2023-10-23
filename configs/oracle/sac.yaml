@@ -1,0 +1,62 @@
+alg: SAC
+alg_kwargs:
+  tau: 0.005
+  init_temperature: 0.1
+  critic_freq: 1
+  actor_freq: 1
+  target_freq: 2
+  random_steps: 25000
+  bc_steps: 0
+
+optim: Adam
+optim_kwargs:
+  lr: 0.0003
+
+network: ActorCriticPolicy
+network_kwargs:
+  actor_class: DiagonalGaussianMLPActor
+  actor_kwargs:
+    log_std_bounds: [-5, 2]
+    squash_normal: True
+    output_act: null
+  critic_class: ContinuousMLPCritic
+  critic_kwargs:
+    ensemble_size: 2
+  hidden_layers: [256, 256, 256]
+  ortho_init: true
+
+env: mw_drawer-open-v2
+env_kwargs:
+  sparse: False
+
+dataset: ReplayBuffer
+dataset_kwargs:
+  path: null
+  sample_fn: sample_qlearning
+  sample_kwargs:
+    discount: 0.99
+    nstep: 1
+    batch_size: 512
+    sample_by_timesteps: False
+  capacity: 1200000
+  fetch_every: 1000
+  distributed: False
+
+processor: null
+
+trainer_kwargs: # Arguments given to Algorithm.train
+  total_steps: 1000000 # The total number of steps to train
+  log_freq: 250 # How often to log values
+  profile_freq: 100
+  env_runner: AsyncEnv # Set to AsyncEnv to run the environment run asynchronized!
+  eval_freq: 10000 # How often to run evals
+  checkpoint_freq: 10000
+  eval_fn: eval_policy
+  eval_kwargs:
+    num_ep: 20 # Number of enviornment episodes to run for evaluation
+  loss_metric: reward # The validation metric that determines when to save the "best_checkpoint"
+  train_dataloader_kwargs:
+    batch_size: null
+    num_workers: 0 # Number of dataloader workers.
+
+seed: null

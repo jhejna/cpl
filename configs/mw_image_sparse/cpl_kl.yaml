@@ -1,0 +1,58 @@
+
+alg: CPL_KL
+alg_kwargs:
+  alpha: 0.2
+  bc_coeff: 0.0
+  bc_data: all
+  contrastive_bias: 0.75
+  bc_steps: 80000
+
+optim: Adam
+optim_kwargs:
+  lr: 0.0001
+
+network: ActorPolicy
+network_kwargs:
+  encoder_class: DrQv2Encoder
+  actor_class: DrQv2Actor
+  actor_kwargs:
+    output_act: ["import", "torch.nn", "Tanh"]
+    dropout: 0.5
+
+checkpoint: null
+
+eval_env: mw_drawer-open-image-v2
+
+dataset: FeedbackBuffer
+dataset_kwargs:
+  path: datasets/mw/pref_image/mw_drawer-open-v2_ep2500_n0.3_img64.npz
+  batch_size: 48
+  segment_length: null # default to 64
+  capacity: 10000 # How many comparisons to allow, null means all in the dataset.
+  label_key: rl_sum
+  mode: comparison
+
+processor: RandomCrop
+
+schedule:
+  actor: linear_warmup
+schedule_kwargs:
+  actor:
+    total_steps: 10000
+    multiplier: 0.1
+
+trainer_kwargs: # Arguments given to Algorithm.train
+  total_steps: 200000 # The total number of steps to train
+  log_freq: 500 # How often to log values
+  profile_freq: 500
+  eval_freq: 2500 # How often to run evals
+  eval_fn: eval_policy
+  eval_kwargs:
+    num_ep: 25 # Number of enviornment episodes to run for evaluation, or -1 if none should be run.
+  loss_metric: reward # The validation metric that determines when to save the "best_checkpoint"
+  train_dataloader_kwargs:
+    num_workers: 1 # Number of dataloader workers.
+    batch_size: null
+  benchmark: True
+
+seed: null
