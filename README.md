@@ -18,7 +18,7 @@ If you find our paper or code insightful, feel free to cite us with the followin
 ## Installation
 
 Complete the following steps:
-1. Clone the repository to your desired location using `git clone`.
+1. Clone the repository to your desired location using `git clone <repository_url>`.
 2. Create the conda environment using `conda env create -f environment_<cpu or gpu>.yaml`. Note that the correct MetaWorld version must be used.
 3. Install the repository research package via `pip install -e research`.
 4. Modify the `setup_shell.sh` script by updating the appropriate values as needed. The `setup_shell.sh` script should load the environment, move the shell to the repository directory, and additionally setup any external dependencies. All the required flags should be at the top of the file. This is necessary for support with the SLURM launcher, which we used to run experiments.
@@ -30,7 +30,7 @@ When using the repository, you should be able to setup the environment by runnin
 
 To train a model, simply run `python scripts/train.py --config path/to/config --path path/to/save/folder` after activating the environment.
 
-Multiple experiments can be run at a single time using a `.json` sweep file. To run a sweep, first create one, then run a sweep command using either `tools/run_slurm.py` or `tools/run_local.py`. Specify the slurm config and output directory with `--arguments config=path/to/config path=path/to/save/folder`. For example sweep files, checkout the Inverse Preference Learning [repository](https://github.com/jhejna/inverse-preference-learning).
+Multiple experiments can be run at a single time using a `.json` sweep file. To run a sweep, first create one, then run a sweep command using either `tools/run_slurm.py` or `tools/run_local.py`. Specify the slurm config and output directory with `--arguments config=path/to/config path=path/to/save/folder`. For example sweep files, check out the Inverse Preference Learning [repository](https://github.com/jhejna/inverse-preference-learning).
 
 
 ## License
