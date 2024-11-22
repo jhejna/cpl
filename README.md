@@ -32,6 +32,11 @@ To train a model, simply run `python scripts/train.py --config path/to/config --
 
 Multiple experiments can be run at a single time using a `.json` sweep file. To run a sweep, first create one, then run a sweep command using either `tools/run_slurm.py` or `tools/run_local.py`. Specify the slurm config and output directory with `--arguments config=path/to/config path=path/to/save/folder`. For example sweep files, check out the Inverse Preference Learning [repository](https://github.com/jhejna/inverse-preference-learning).
 
+## D4RL Results with Human Feedback
+
+To test Contrastive Preference Learning (CPL) on real human data, we use a fork of the [Direct Preference-based Policy Optimization without Reward Modeling](https://arxiv.org/abs/2301.12842) codebase. The implementation for these experiments can be found in [this repository](https://github.com/jhejna/cpl-human).
+
+To move from DPPO to CPL, we just change the loss function and move to a probabilistic policy. We leave all hyperparameters of the preference model the same.
 
 ## License
 
